@@ -1,5 +1,7 @@
 # Fabric Reference Node
 
+[![CI](https://github.com/Ivan-Pasev/fabric-reference-node/actions/workflows/ci.yml/badge.svg)](https://github.com/Ivan-Pasev/fabric-reference-node/actions/workflows/ci.yml)
+
 **Open infrastructure for evidence-bearing, authority-aware, invariant-checked AI and agent actions.**
 
 Fabric Reference Node is a small, auditable runtime for a problem that becomes unavoidable when software agents act across tools, organizations, policies, and human decision boundaries:
@@ -66,6 +68,8 @@ pip install -e '.[dev]'
 python scripts/validate_schemas.py
 ```
 
+The public genesis CI runs the install, test suite, schema checks, and synthetic governed-decision example on Python 3.11 and 3.12. See [`evidence/`](evidence/) for the bounded genesis evidence envelope.
+
 ## Current maturity
 
 `0.1.0` is a **bounded local executable reference candidate**.
@@ -86,6 +90,8 @@ Current evidence supports:
 - local HTTP transport.
 
 It does **not** establish production security, legal/regulatory compliance, formal proof, scientific validity, fairness, external assurance, or production readiness. See [CLAIM_BOUNDARY.md](CLAIM_BOUNDARY.md).
+
+A known open publication gap is full runtime-object instance conformance against every required field in the interchange schema. It is tracked publicly in [issue #1](https://github.com/Ivan-Pasev/fabric-reference-node/issues/1).
 
 ## Why this is open source
 
@@ -111,7 +117,7 @@ The project aims to **compose with** mature standards and protocols rather than 
 └──────────────────────────────────────────────┘
 ```
 
-More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Version surfaces are explained in [docs/VERSIONING.md](docs/VERSIONING.md).
 
 ## Companion projects
 
@@ -127,7 +133,7 @@ The repo is **not built for a single fellowship or grant**. Funding should finan
 
 ## Contributing
 
-Start with [CONTRIBUTING.md](CONTRIBUTING.md) and the [roadmap](ROADMAP.md). Small reproducible examples, adapters, adversarial cases, security review, and documentation improvements are especially welcome.
+Start with [CONTRIBUTING.md](CONTRIBUTING.md), the [roadmap](ROADMAP.md), and the [open issues](https://github.com/Ivan-Pasev/fabric-reference-node/issues). Small reproducible examples, adapters, adversarial cases, security review, and documentation improvements are especially welcome.
 
 ## License
 
