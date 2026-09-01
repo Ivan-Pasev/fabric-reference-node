@@ -1,0 +1,33 @@
+{
+  "evidence_type": "RUNTIME_INTERCHANGE_CONFORMANCE",
+  "scope": "CANONICAL_RUNTIME_EXPORT_SHAPE",
+  "implementation_commit": "6e9ad62dad76c0b526cfc7107445ef843ed15546",
+  "github_actions_run_id": 33558904145,
+  "github_actions_url": "https://github.com/Ivan-Pasev/fabric-reference-node/actions/runs/33558904145",
+  "matrix": {
+    "python_3_11": "SUCCESS",
+    "python_3_12": "SUCCESS"
+  },
+  "checks": [
+    "package installation",
+    "regression and conformance unittest discovery",
+    "Draft 2020-12 schema-contract meta-validation",
+    "canonical exported Reference Node bundle instance-validation against reference-node.schema.json",
+    "synthetic governed-decision execution"
+  ],
+  "runtime_hardening": [
+    "typed registry objects reject missing required fields",
+    "typed registry objects reject unexpected fields",
+    "stored Assessment and Decision objects no longer persist request-only fields outside the interchange schema",
+    "canonical Trace objects use the full interchange shape"
+  ],
+  "non_implications": [
+    "NO_PRODUCTION_SECURITY_CLAIM",
+    "NO_SEMANTIC_CORRECTNESS_PROOF",
+    "NO_LEGAL_OR_REGULATORY_COMPLIANCE_CLAIM",
+    "NO_FORMAL_PROOF_PROMOTION",
+    "NO_SCIENTIFIC_VALIDITY_PROMOTION",
+    "NO_EXTERNAL_ADOPTION_EVIDENCE"
+  ],
+  "verdict": "PASS_BOUNDED_INTERCHANGE_SHAPE_CONFORMANCE"
+}

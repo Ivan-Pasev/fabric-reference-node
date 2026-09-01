@@ -8,4 +8,7 @@
 - retained durable retraction / append-only rollback semantics;
 - added synthetic example and public regression tests;
 - added explicit claim, governance, security, and funding boundaries;
-- intentionally excluded internal CodexStation/Evidence Router snapshots.
+- intentionally excluded internal CodexStation/Evidence Router snapshots;
+- normalized inherited OpenAPI schema-reference filenames before public genesis;
+- added schema-complete canonical runtime fixtures and CI instance-validation against the full Reference Node interchange schema;
+- hardened typed registry admission to fail closed on missing or unexpected fields.

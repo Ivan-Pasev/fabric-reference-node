@@ -68,7 +68,7 @@ pip install -e '.[dev]'
 python scripts/validate_schemas.py
 ```
 
-The public genesis CI runs the install, test suite, schema checks, and synthetic governed-decision example on Python 3.11 and 3.12. See [`evidence/`](evidence/) for the bounded genesis evidence envelope.
+The public CI runs installation, the regression/conformance suite, schema-contract validation, and the synthetic governed-decision example on Python 3.11 and 3.12. See [`evidence/`](evidence/) for the bounded evidence envelope.
 
 ## Current maturity
 
@@ -87,11 +87,13 @@ Current evidence supports:
 - dependency-only suspension propagation;
 - append-only transition history;
 - rollback that restores effective state **without erasing history**;
-- local HTTP transport.
+- local HTTP transport;
+- schema-complete canonical runtime fixtures whose exported bundle validates against the full Reference Node interchange schema;
+- fail-closed rejection of missing or unexpected fields for typed registry objects.
+
+The conformance result above is **interchange-shape conformance**, not proof of semantic correctness, security, policy correctness, institutional authority, or production readiness.
 
 It does **not** establish production security, legal/regulatory compliance, formal proof, scientific validity, fairness, external assurance, or production readiness. See [CLAIM_BOUNDARY.md](CLAIM_BOUNDARY.md).
-
-A known open publication gap is full runtime-object instance conformance against every required field in the interchange schema. It is tracked publicly in [issue #1](https://github.com/Ivan-Pasev/fabric-reference-node/issues/1).
 
 ## Why this is open source
 
