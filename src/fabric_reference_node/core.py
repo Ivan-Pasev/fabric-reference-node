@@ -21,6 +21,17 @@ MACHINE = {"PASS", "HOLD", "FAIL"}
 DECISIONS = {"APPROVE", "REJECT", "ESCALATE", "RESTRICT", "CONTEXTUALIZE", "DEFER", "UNKNOWN"}
 AUTH_KEYS = {"definition","paper_proof","formal_check","executable","numerical","empirical","kernel"}
 
+SHAPES = {
+    "artifact": ({"id","kind","state_ref","created_at","provenance_refs"}, {"id","kind","state_ref","created_at","provenance_refs","metadata"}),
+    "claim": ({"id","artifact_id","statement","public_statuses","kind","authority","sources","dependencies","contradictions","lifecycle"}, {"id","artifact_id","statement","public_statuses","kind","authority","sources","dependencies","contradictions","lifecycle","promotion_receipts"}),
+    "evidence": ({"id","artifact_id","claim_ids","evidence_class","source_ref","content_hash","created_at"}, {"id","artifact_id","claim_ids","evidence_class","source_ref","content_hash","created_at","metadata"}),
+    "policy": ({"id","version","scope","rule_ref","effect"}, {"id","version","scope","rule_ref","effect","external_standard_refs"}),
+    "authority": ({"id","actor_id","role","jurisdiction","scopes","status"}, {"id","actor_id","role","jurisdiction","scopes","delegated_by","credential_refs","valid_from","valid_until","status"}),
+    "invariant": ({"id","type","statement","check_ref","severity"}, {"id","type","statement","check_ref","severity"}),
+    "continuation": ({"id","source_ref","relation","target_ref","created_at"}, {"id","source_ref","relation","target_ref","created_at"}),
+    "trace": ({"id","artifact_id","prior_state_ref","transform_id","policy_refs","authority_ref","invariants_checked","evidence_refs","validator_refs","assessment_ref","decision_ref","reason_code","result_state_ref","created_at","continuation_links"}, {"id","artifact_id","prior_state_ref","transform_id","policy_refs","authority_ref","invariants_checked","evidence_refs","validator_refs","assessment_ref","decision_ref","reason_code","result_state_ref","created_at","continuation_links"}),
+}
+
 class ContractError(ValueError):
     pass
 
@@ -79,7 +90,19 @@ class ReferenceNode:
             ],
         }
 
-    def _register_unique(self, store: Dict[str, Dict[str, Any]], obj: Mapping[str, Any]) -> Dict[str, Any]:
+    def _validate_shape(self, kind: str, obj: Mapping[str, Any]) -> None:
+        required, allowed = SHAPES[kind]
+        keys = set(obj)
+        missing = sorted(required - keys)
+        unexpected = sorted(keys - allowed)
+        if missing:
+            raise ContractError(f"{kind}: missing required fields: {missing}")
+        if unexpected:
+            raise ContractError(f"{kind}: unexpected fields: {unexpected}")
+
+    def _register_unique(self, store: Dict[str, Dict[str, Any]], obj: Mapping[str, Any], *, kind: str | None = None) -> Dict[str, Any]:
+        if kind is not None:
+            self._validate_shape(kind, obj)
         oid = str(obj.get("id", ""))
         if not oid:
             raise ContractError("missing id")
@@ -90,14 +113,24 @@ class ReferenceNode:
         store[oid] = deepcopy(dict(obj))
         return deepcopy(store[oid])
 
-    def add_artifact(self, obj): return self._register_unique(self.artifacts, obj)
-    def add_evidence(self, obj): return self._register_unique(self.evidence, obj)
-    def add_policy(self, obj): return self._register_unique(self.policies, obj)
-    def add_authority(self, obj): return self._register_unique(self.authorities, obj)
-    def add_invariant(self, obj): return self._register_unique(self.invariants, obj)
-    def add_continuation(self, obj): return self._register_unique(self.continuations, obj)
+    def add_artifact(self, obj): return self._register_unique(self.artifacts, obj, kind="artifact")
+    def add_evidence(self, obj):
+        self._validate_shape("evidence", obj)
+        if obj["artifact_id"] not in self.artifacts:
+            raise ContractError("evidence references unknown artifact")
+        missing_claims = set(obj["claim_ids"]) - set(self.claims)
+        if missing_claims:
+            raise ContractError(f"evidence references unknown claims: {sorted(missing_claims)}")
+        return self._register_unique(self.evidence, obj)
+    def add_policy(self, obj): return self._register_unique(self.policies, obj, kind="policy")
+    def add_authority(self, obj): return self._register_unique(self.authorities, obj, kind="authority")
+    def add_invariant(self, obj): return self._register_unique(self.invariants, obj, kind="invariant")
+    def add_continuation(self, obj): return self._register_unique(self.continuations, obj, kind="continuation")
 
     def add_claim(self, obj: Mapping[str, Any]) -> Dict[str, Any]:
+        self._validate_shape("claim", obj)
+        if obj["artifact_id"] not in self.artifacts:
+            raise ContractError("claim references unknown artifact")
         authority = obj.get("authority", {})
         if set(authority) != AUTH_KEYS:
             raise ContractError("authority vector incomplete")
@@ -175,8 +208,6 @@ class ReferenceNode:
             "obligations": [o.to_dict() for o in obligations],
             "machine_outcome": machine,
             "created_at": request.get("created_at", utc_now()),
-            "evidence_refs": evidence_refs,
-            "scope": scope,
         }
         self.assessments[payload["id"]] = deepcopy(payload)
         return deepcopy(payload)
@@ -205,7 +236,6 @@ class ReferenceNode:
             "reason_code": request.get("reason_code", "UNSPECIFIED"),
             "rationale_ref": request.get("rationale_ref"),
             "created_at": request.get("created_at", utc_now()),
-            "scope": scope,
         }
         self.decisions[payload["id"]] = deepcopy(payload)
         return deepcopy(payload)
@@ -218,6 +248,7 @@ class ReferenceNode:
         payload = dict(request)
         payload.setdefault("id", f"TRC-{digest(request)[:16].upper()}")
         payload.setdefault("created_at", utc_now())
+        self._validate_shape("trace", payload)
         self.traces[payload["id"]] = deepcopy(payload)
         return deepcopy(payload)
 
