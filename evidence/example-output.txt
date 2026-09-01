@@ -1,0 +1,4 @@
+machine_outcome: PASS
+institutional_decision: APPROVE
+trace_receipt_verified: True
+important: machine PASS is not institutional approval; both are recorded separately

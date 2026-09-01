@@ -1,0 +1,33 @@
+{
+  "receipt_type": "PUBLIC_GENESIS_EVIDENCE",
+  "project": "Fabric Reference Node",
+  "software_version": "0.1.0",
+  "repository": "Ivan-Pasev/fabric-reference-node",
+  "publication_base_commit": "9ec204ab8cf50d1180bfaeb659b116cff953e752",
+  "status": "BOUNDED_PUBLIC_EXECUTABLE_REFERENCE_CANDIDATE",
+  "local_verification": {
+    "unit_tests": {"passed": 10, "failed": 0, "errors": 0},
+    "openapi_3_1": "PASS",
+    "draft_2020_12_schema_contracts": 4,
+    "machine_readable_contract_checks_total": 5,
+    "synthetic_governed_workflow": "PASS"
+  },
+  "publication_fixes": [
+    "Normalized OpenAPI reference-node schema path to reference-node.schema.json",
+    "Normalized OpenAPI state-transition schema path to state-transition.schema.json"
+  ],
+  "publication_boundary": {
+    "included": ["runtime", "schemas", "HTTP reference transport", "synthetic examples", "tests", "threat model", "governance", "claim boundary"],
+    "excluded": ["project-specific CodexStation registries", "Evidence Router source snapshots", "internal staging databases", "private/source-specific authority data"]
+  },
+  "known_open_conformance_gap": "Runtime behavior tests are green, but full runtime object fixtures are not yet instance-validated against every required field of the complete reference-node JSON Schema. A dedicated conformance issue should close this before stronger schema-conformance claims.",
+  "authority_boundary": [
+    "NO_PRODUCTION_SECURITY_CLAIM",
+    "NO_LEGAL_OR_REGULATORY_COMPLIANCE_CLAIM",
+    "NO_FORMAL_PROOF_PROMOTION",
+    "NO_SCIENTIFIC_VALIDITY_PROMOTION",
+    "NO_EXTERNAL_ADOPTION_EVIDENCE",
+    "NO_AUTOMATIC_UPSTREAM_AUTHORITY_TRANSFER"
+  ],
+  "ci_state_at_receipt_creation": "NOT_YET_EARNED_UNTIL_GITHUB_ACTIONS_RUNS_GREEN"
+}

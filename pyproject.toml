@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fabric-reference-node"
+version = "0.1.0"
+description = "Open reference runtime for evidence-bearing, authority-aware, invariant-checked AI and agent actions."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+authors = [{name = "Ivan Pasev"}]
+keywords = ["ai-agents", "governance", "provenance", "authorization", "audit", "open-source", "cybernetics"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["jsonschema>=4.22", "pytest>=8.0", "build>=1.2"]
+
+[project.scripts]
+fabric-reference-node = "fabric_reference_node.http:main"
+
+[project.urls]
+Homepage = "https://digital-fabrica.com"
+Repository = "https://github.com/Ivan-Pasev/fabric-reference-node"
+Documentation = "https://digital-fabrica.com"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

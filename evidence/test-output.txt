@@ -1,0 +1,15 @@
+test_authority_scope_mismatch_fails_closed (test_core.CoreTests.test_authority_scope_mismatch_fails_closed) ... ok
+test_happy_path_keeps_machine_and_human_separate (test_core.CoreTests.test_happy_path_keeps_machine_and_human_separate) ... ok
+test_invariant_failure_fails (test_core.CoreTests.test_invariant_failure_fails) ... ok
+test_missing_evidence_holds (test_core.CoreTests.test_missing_evidence_holds) ... ok
+test_receipt_rejects_changed_object (test_core.CoreTests.test_receipt_rejects_changed_object) ... ok
+test_retraction_simulation_is_nonmutating (test_core.CoreTests.test_retraction_simulation_is_nonmutating) ... ok
+test_health (test_http.HTTPTests.test_health) ... ok
+test_node_snapshot_roundtrip (test_persistence.PersistenceTests.test_node_snapshot_roundtrip) ... ok
+test_dependency_only_retraction_and_append_only_rollback (test_transitions.TransitionTests.test_dependency_only_retraction_and_append_only_rollback) ... ok
+test_stale_state_root_fails_closed (test_transitions.TransitionTests.test_stale_state_root_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.520s
+
+OK

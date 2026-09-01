@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-fabrica.com/schemas/reference-node-transfer-governance-0.3.0.json",
+  "title": "DFT 2.0 CodexStation Transfer Governance Contract",
+  "oneOf": [
+    {"$ref": "#/$defs/projectionRegistry"},
+    {"$ref": "#/$defs/dependencyLedger"}
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "claimKind": {"enum": ["DEF", "LEMMA", "THM", "MODEL", "HYP", "SIM", "MEAS", "TARGET", "PROTOCOL", "NO_GO"]},
+    "projectionRecord": {
+      "type": "object",
+      "required": ["source_claim_id", "source_claim_hash", "source_branch", "source_kind_raw", "target_kind", "basis", "projection_state", "rationale", "target_claim_id", "target_artifact_id", "authority_effect", "non_implications"],
+      "properties": {
+        "source_claim_id": {"type": "string", "pattern": "^CLM-[A-Z0-9][A-Z0-9_-]*$"},
+        "source_claim_hash": {"$ref": "#/$defs/hash"},
+        "source_branch": {"type": "string"},
+        "source_kind_raw": {"type": "string"},
+        "target_kind": {"$ref": "#/$defs/claimKind"},
+        "basis": {"enum": ["DIRECT_COMPATIBLE", "PER_CLAIM_REVIEWED_PROJECTION"]},
+        "projection_state": {"const": "REVIEWED_TRANSPORT_CANDIDATE"},
+        "rationale": {"type": "string", "minLength": 1},
+        "target_claim_id": {"type": "string", "pattern": "^CLM-CODEX-[A-Z0-9_-]+$"},
+        "target_artifact_id": {"type": "string", "pattern": "^ART-CODEX-[A-Z0-9_-]+$"},
+        "authority_effect": {"const": "NONE_UNTIL_EXPLICIT_TARGET_COMMIT"},
+        "non_implications": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    },
+    "projectionRegistry": {
+      "type": "object",
+      "required": ["registry_version", "source_system", "source_precedence", "source_registry_sha256", "policy", "record_count", "records", "registry_hash"],
+      "properties": {
+        "registry_version": {"const": "0.3.0"},
+        "source_system": {"const": "CODEXSTATION_CANONICAL_CRYSTAL"},
+        "source_precedence": {"type": "string"},
+        "source_registry_sha256": {"$ref": "#/$defs/hash"},
+        "policy": {"type": "string"},
+        "record_count": {"type": "integer", "minimum": 1},
+        "records": {"type": "array", "items": {"$ref": "#/$defs/projectionRecord"}, "minItems": 1},
+        "registry_hash": {"$ref": "#/$defs/hash"}
+      },
+      "additionalProperties": false
+    },
+    "dependencyEdge": {
+      "type": "object",
+      "required": ["edge_id", "source_claim_id", "source_dependency_id", "target_claim_id", "target_dependency_id", "relation", "transfer_state", "authority_effect"],
+      "properties": {
+        "edge_id": {"type": "string", "pattern": "^EDGE-[A-Z0-9_-]+$"},
+        "source_claim_id": {"type": "string"},
+        "source_dependency_id": {"type": "string"},
+        "target_claim_id": {"type": "string"},
+        "target_dependency_id": {"type": "string"},
+        "relation": {"const": "DEPENDS_ON"},
+        "transfer_state": {"const": "MAPPABLE_ONLY_AFTER_BOTH_TARGET_CLAIMS_EXPLICITLY_ACCEPTED"},
+        "authority_effect": {"const": "NONE"}
+      },
+      "additionalProperties": false
+    },
+    "claimPlan": {
+      "type": "object",
+      "required": ["topological_rank", "source_claim_id", "target_claim_id", "target_artifact_id", "projected_kind", "source_dependencies", "target_dependencies", "transfer_state", "authority_effect"],
+      "properties": {
+        "topological_rank": {"type": "integer", "minimum": 0},
+        "source_claim_id": {"type": "string"},
+        "target_claim_id": {"type": "string"},
+        "target_artifact_id": {"type": "string"},
+        "projected_kind": {"$ref": "#/$defs/claimKind"},
+        "source_dependencies": {"type": "array", "items": {"type": "string"}},
+        "target_dependencies": {"type": "array", "items": {"type": "string"}},
+        "transfer_state": {"const": "PENDING_EXPLICIT_ACCEPTANCE"},
+        "authority_effect": {"const": "NONE"}
+      },
+      "additionalProperties": false
+    },
+    "dependencyLedger": {
+      "type": "object",
+      "required": ["ledger_version", "source_registry_sha256", "projection_registry_hash", "claim_count", "dependency_edge_count", "topological_order", "claims", "edges", "invariants", "ledger_hash"],
+      "properties": {
+        "ledger_version": {"const": "0.3.0"},
+        "source_registry_sha256": {"$ref": "#/$defs/hash"},
+        "projection_registry_hash": {"$ref": "#/$defs/hash"},
+        "claim_count": {"type": "integer", "minimum": 1},
+        "dependency_edge_count": {"type": "integer", "minimum": 0},
+        "topological_order": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "claims": {"type": "array", "items": {"$ref": "#/$defs/claimPlan"}, "minItems": 1},
+        "edges": {"type": "array", "items": {"$ref": "#/$defs/dependencyEdge"}},
+        "invariants": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "ledger_hash": {"$ref": "#/$defs/hash"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

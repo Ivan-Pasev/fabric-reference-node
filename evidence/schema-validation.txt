@@ -1,0 +1,7 @@
+PASS openapi.json: OpenAPI 3.1.0
+INFO property-contract.json: contract JSON (not a schema)
+PASS reference-node.schema.json: Draft 2020-12 schema
+PASS state-transition.schema.json: Draft 2020-12 schema
+PASS transfer-governance.schema.json: Draft 2020-12 schema
+PASS transfer-receipt.schema.json: Draft 2020-12 schema
+validated 5 machine-readable contracts

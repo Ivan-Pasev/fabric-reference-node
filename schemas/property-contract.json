@@ -1,0 +1,21 @@
+{
+  "contract_version": "0.3.0",
+  "inherits": "property_contract.json",
+  "supersedes_runtime_contract": "property_contract.runtime-v0.2.json",
+  "extension_properties": [
+    {"id":"R1D-P16","name":"Source authority non-transfer","assertion":"Binding, staging, projecting or planning a CodexStation/Evidence Router object has zero DFT authority effect until an explicit typed target commit is accepted."},
+    {"id":"R1D-P17","name":"Per-claim kind projection","assertion":"Noncanonical source kinds are resolved only by a source-claim-specific reviewed projection record; no global semantic equivalence is inferred."},
+    {"id":"R1D-P18","name":"Dependency transfer explicitness","assertion":"A target claim commit is admitted only after every declared source dependency has already been explicitly committed and mapped in topological order."},
+    {"id":"R1D-P19","name":"Evidence Router lossless staging","assertion":"All source partitions stage with deterministic row hashes and raw authority/status values unchanged."},
+    {"id":"R1D-P20","name":"S013 semantic parity","assertion":"Bridge impact and non-mutating retraction results match the frozen S013 engine for parity cases."},
+    {"id":"R1C-P21","name":"Unknown HTTP routes fail closed","assertion":"Unknown HTTP routes return HOLD/404 rather than implicit success."},
+    {"id":"R1C-P22","name":"Version-bounded applied retraction","assertion":"The v0.2 HTTP surface remains fail-closed for applied retraction; v0.3 enables it only through the durable transition/rollback contract."},
+    {"id":"R1D-P23","name":"Immutable base claim under retraction","assertion":"Applied retraction changes only an effective-governance-state overlay; canonical base Claim bytes remain unchanged."},
+    {"id":"R1D-P24","name":"Dependency-only retraction propagation","assertion":"Retraction suspends only declared dependency descendants. Contradiction links are reported but never traversed as dependency edges."},
+    {"id":"R1D-P25","name":"Durable restart recovery","assertion":"Node snapshots and effective-state overlays survive local process restart in the SQLite candidate."},
+    {"id":"R1D-P26","name":"Rollback predecessor restoration","assertion":"Rollback is append-only in history and restores predecessor effective states when affected claims have not received a conflicting later transition."},
+    {"id":"R1D-P27","name":"State-root compare-and-swap","assertion":"A stale expected state root causes HOLD/conflict before transition mutation."},
+    {"id":"R1D-P28","name":"Overlapping transition conflict","assertion":"A claim cannot participate in overlapping active transition overlays; ambiguity fails closed."},
+    {"id":"R1C-P29","name":"Persistent HTTP mutation","assertion":"Local HTTP registration, applied retraction, restart recovery and rollback are persistence-bound in the v0.3 candidate."}
+  ]
+}

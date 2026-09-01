@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://digital-fabrica.com/schemas/reference-node/v1/transfer-receipt.schema.json",
+  "title": "DFT Reference Node CodexStation Transfer Receipt",
+  "type": "object",
+  "required": [
+    "receipt_version", "mode", "source_system", "source_precedence", "source_registry_sha256",
+    "source_object_id", "source_object_hash", "source_kind_raw", "source_authority_raw",
+    "proposed_target", "kind_projection", "normalized_authority", "public_statuses",
+    "dependency_map", "contradictions_raw", "warnings", "verdict", "authority_effect"
+  ],
+  "properties": {
+    "receipt_version": {"const": "0.2.0"},
+    "mode": {"enum": ["PREVIEW", "COMMIT"]},
+    "source_system": {"const": "CODEXSTATION_CANONICAL_CRYSTAL"},
+    "source_precedence": {"type": "string", "minLength": 1},
+    "source_registry_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_alias_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_object_id": {"type": "string", "minLength": 1},
+    "source_object_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_kind_raw": {"type": "string", "minLength": 1},
+    "source_authority_raw": {"type": "object"},
+    "proposed_target": {
+      "type": "object",
+      "required": ["artifact_id", "claim_id"],
+      "properties": {
+        "artifact_id": {"type": "string"},
+        "claim_id": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "kind_projection": {
+      "type": "object",
+      "required": ["source", "target", "basis"],
+      "properties": {
+        "source": {"type": "string"},
+        "target": {"type": ["string", "null"]},
+        "basis": {"enum": ["DIRECT", "EXPLICIT_PROJECTION", "UNRESOLVED"]}
+      },
+      "additionalProperties": false
+    },
+    "normalized_authority": {"type": "object"},
+    "public_statuses": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "dependency_map": {"type": "object", "additionalProperties": {"type": "string"}},
+    "contradictions_raw": {"type": "array"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "verdict": {"enum": ["READY_FOR_TYPED_TRANSFER", "HOLD_KIND_PROJECTION_REQUIRED", "HOLD_DEPENDENCY_MAPPING_REQUIRED", "HOLD_AUTHORITY_NORMALIZATION_UNRESOLVED", "COMMITTED"]},
+    "authority_effect": {"enum": ["NONE", "BOUNDED_TARGET_REGISTRATION_ONLY"]},
+    "accepted_by": {"type": ["string", "null"]},
+    "target_object_hash": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+  },
+  "additionalProperties": false
+}

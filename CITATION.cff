@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use Fabric Reference Node in research, please cite this software."
+title: "Fabric Reference Node"
+type: software
+authors:
+  - family-names: Pasev
+    given-names: Ivan
+version: 0.1.0
+date-released: 2026-09-01
+url: "https://github.com/Ivan-Pasev/fabric-reference-node"
+repository-code: "https://github.com/Ivan-Pasev/fabric-reference-node"
+license: Apache-2.0

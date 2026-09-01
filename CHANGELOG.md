@@ -1,0 +1,11 @@
+# Changelog
+
+## 0.1.0 — Public genesis candidate
+
+- extracted public Reference Node core from the bounded DFT 2.0 R1 local implementation;
+- added installable Python package and local HTTP CLI;
+- included public schemas and OpenAPI contract;
+- retained durable retraction / append-only rollback semantics;
+- added synthetic example and public regression tests;
+- added explicit claim, governance, security, and funding boundaries;
+- intentionally excluded internal CodexStation/Evidence Router snapshots.
